@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <iostream>
 
+#include "pch.h"
+
 /*
 #include "winrt/Windows.Foundation.h"
 #include "winrt/Windows.Media.Audio.h"
