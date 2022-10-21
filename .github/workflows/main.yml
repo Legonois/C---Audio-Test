@@ -1,4 +1,4 @@
-name: Compile Spark
+name: Compile C++
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
     - uses: ilammy/msvc-dev-cmd@v1.4.1
     - name: compile
       run: | 
-        cl main.cpp /Fe:program /std:c++latest
+        cl "hello world.cpp" /Fe:program /std:c++latest
     - name: run
       run: |
         program.exe
