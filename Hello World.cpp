@@ -5,8 +5,16 @@
 
 
 #include "winrt/Windows.Foundation.h"
+
+
+#include "winrt/Windows.Media.h"
+#include "winrt/Windows.Media.Devices.h"
+#include "winrt/Windows.Media.Capture.h"
 #include "winrt/Windows.Media.Audio.h"
+#include "winrt/Windows.Media.Render.h"
 #include "winrt/Windows.Media.MediaProperties.h"
+#include "winrt/Windows.Media.Devices.Core.h"
+
 
 #include <Windows.h>
 
@@ -41,8 +49,11 @@ int main()
     int n = 0;
 
     std::string ns = "sa";
+    
+    hstring ns2 = MediaDevice::GetAudioCaptureSelector();
 
-    ns = "sa22";
+    ns = to_string(ns2);
+    std::cout << ns << std::endl;
 
     std::string s;
     std::cin >> s;
