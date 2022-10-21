@@ -3,18 +3,18 @@
 
 #include "pch.h"
 
-/*
+
 #include "winrt/Windows.Foundation.h"
 #include "winrt/Windows.Media.Audio.h"
 #include "winrt/Windows.Media.MediaProperties.h"
 
 #include <Windows.h>
 
-*/
+
 
 #include "testheader.h"
 
-/*
+
 using namespace winrt;
 using namespace winrt::Windows::Foundation;
 
@@ -24,7 +24,7 @@ using namespace winrt::Windows::Media::Capture;
 using namespace winrt::Windows::Media::Audio;
 using namespace winrt::Windows::Media::Render;
 using namespace winrt::Windows::Media::MediaProperties;
-*/
+
 
 //Print Sound Cards
 
@@ -38,7 +38,11 @@ int main()
    
     std::cout << outs << std::endl;
 
-    int n;
+    int n = 0;
+
+    std::string ns = "sa";
+
+    ns = "sa22";
 
     std::string s;
     std::cin >> s;
@@ -48,9 +52,9 @@ int main()
         std::cout << s << std::endl;
         std::cout << "Hello World" << std::endl;
 
+        n++;
+
         std::string outs = std::to_string(n);
         std::cout << outs << std::endl;
-
-        n++;
     }
 }
