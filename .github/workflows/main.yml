@@ -13,10 +13,6 @@ jobs:
     - name: compile
       run: | 
         cl "hello world.cpp" /Fe:program /std:c++latest
-    - name: run
-      run: |
-        program.exe
-      shell: cmd
     - name: upload executable
       uses: actions/upload-artifact@v2
       with:
