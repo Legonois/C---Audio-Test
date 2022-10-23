@@ -53,7 +53,7 @@ int main()
     std::cout << outs << std::endl;
     
     //Print Sound Cards (also converts hstring to std::string)
-    std::string ns = "sa";
+    std::string ns = "sasss";
     hstring ns2 = MediaDevice::GetAudioCaptureSelector();
     ns = to_string(ns2);
 
