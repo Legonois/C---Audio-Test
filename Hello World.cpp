@@ -1,12 +1,15 @@
 //Inport Standard Libaries
 #include <stdio.h>
 #include <iostream>
+#include <coroutine>
 
 //Inport Windows Runtime API settings
 #include "pch.h"
 
 //Inport Windows Runtime API to native C++
 #include "winrt/Windows.Foundation.h"
+#include "winrt/Windows.Foundation.Collections.h"
+
 
 #include "winrt/Windows.Media.h"
 #include "winrt/Windows.Media.Devices.h"
@@ -22,6 +25,7 @@
 //Added Namespaces so code is easier to find
 using namespace winrt;
 using namespace winrt::Windows::Foundation;
+using namespace winrt::Windows::Foundation::Collections;
 
 using namespace winrt::Windows::Media;
 using namespace winrt::Windows::Media::Devices;
@@ -31,6 +35,14 @@ using namespace winrt::Windows::Media::Render;
 using namespace winrt::Windows::Media::MediaProperties;
 
 
+int testAudioGraph()
+{
+    AudioGraphSettings settings = AudioGraphSettings(Windows::Media::Render::AudioRenderCategory::Media); 
+
+    class CreateAudioGraphResult final2 = /*co_await*/ AudioGraph::CreateAsync(settings).get();     //.wait_for(30);
+    
+    return 1;
+}
 
 int main()
 {
@@ -46,6 +58,10 @@ int main()
     hstring ns2 = MediaDevice::GetAudioCaptureSelector();
     ns = to_string(ns2);
     std::cout << ns << std::endl;
+
+    std::cout << std::endl;
+
+    std::cout << "Audio Graph Creation Exit Code: " << std::to_string(testAudioGraph()) << std::endl;
 
     //Adding input to the program
     std::string s;
