@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <iostream>
 #include <coroutine>
+
+//Inport Custom Libaries
 #include "cab.h"
+#include "cablog.h"
 
 //Inport Windows Runtime API settings
 #include "pch.h"
@@ -51,7 +54,11 @@ int main()
     std::string ns = "sa";
     hstring ns2 = MediaDevice::GetAudioCaptureSelector();
     ns = to_string(ns2);
-    std::cout << ns << std::endl;
+
+    //std::cout << ns << std::endl;
+    cablog::info(ns);
+
+    cablog::info("testing strings");
 
     std::cout << std::endl;
 
