@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <coroutine>
+#include "cab.h"
 
 //Inport Windows Runtime API settings
 #include "pch.h"
@@ -35,14 +36,7 @@ using namespace winrt::Windows::Media::Render;
 using namespace winrt::Windows::Media::MediaProperties;
 
 
-int testAudioGraph()
-{
-    AudioGraphSettings settings = AudioGraphSettings(Windows::Media::Render::AudioRenderCategory::Media); 
 
-    class CreateAudioGraphResult final2 = /*co_await*/ AudioGraph::CreateAsync(settings).get();     //.wait_for(30);
-    
-    return 1;
-}
 
 int main()
 {
@@ -61,12 +55,18 @@ int main()
 
     std::cout << std::endl;
 
-    std::cout << "Audio Graph Creation Exit Code: " << std::to_string(testAudioGraph()) << std::endl;
+    std::cout << "Audio Graph Creation Exit Code: " << std::to_string(cab::testAudioGraph()) << std::endl;
+
+    //exit
+    std::cout<< "\n" << "End of program" << "\n" << "\n";
+    system("pause");
 
     //Adding input to the program
-    std::string s;
-    std::cin >> s;
+    //std::string s;
+    //std::cin >> s;
 
+
+    /*
     //Initalizes Loop Counter
     int n = 0;
     while (s != "exit")
@@ -82,4 +82,7 @@ int main()
         std::string outs = std::to_string(n);
         std::cout << outs << std::endl;
     }
+    */
+
+
 }
