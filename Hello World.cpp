@@ -23,6 +23,8 @@
 #include "winrt/Windows.Media.MediaProperties.h"
 #include "winrt/Windows.Media.Devices.Core.h"
 
+//#include <Windows.h>
+
 //Test inclusion of a Header File
 #include "testheader.h"
 

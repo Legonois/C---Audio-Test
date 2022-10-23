@@ -3,13 +3,32 @@
 #include <iostream>
 #include <coroutine>
 
-#include <Windows.h>
+#include "pch.h"
+
 
 namespace cablog
 {
     void info(std::string input )
     {
-        std::cout << "Info: " << input << "\n";
+        
+        
+
+        HANDLE hconsole;
+            int k = 240;
+        
+
+
+        hconsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+        SetConsoleTextAttribute(hconsole, k);        
+
+        std::cout << "Info:";
+
+        SetConsoleTextAttribute(hconsole, 15);
+
+        std::cout << " " << input << "\n";
+
+        
     }
 
 
