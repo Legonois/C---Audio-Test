@@ -48,7 +48,8 @@ using namespace winrt::Windows::Media::MediaProperties;
 int main()
 {
     winrt::init_apartment();
-    Cablog * pCablog = new Cablog();
+
+    Cablog* pCablog = new Cablog();
     
     //cablog::info2("Start console tests");
     //cablog::cablog::info2("Testing");
@@ -92,6 +93,8 @@ int main()
     std::cout<< "\n" << "End of program" << "\n" << "\n";
     */
     system("pause");
+
+    delete pCablog;
 
     //Adding input to the program
     //std::string s;

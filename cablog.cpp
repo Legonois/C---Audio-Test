@@ -2,8 +2,8 @@
 
 Cablog::Cablog()
 {
-    _hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+    _hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 }
 
