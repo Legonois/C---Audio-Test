@@ -43,17 +43,39 @@ using namespace winrt::Windows::Media::MediaProperties;
 
 
 
+
+
 int main()
 {
+    winrt::init_apartment();
+    Cablog * pCablog = new Cablog();
+    
+    //cablog::info2("Start console tests");
+    //cablog::cablog::info2("Testing");
+
+    pCablog->info2("testing");
+
+    /*
+    //Console tests
+    cablog::empt();
+    cablog::info("Test");
+    cablog::warn("Test");
+    cablog::error("Test");
+
     //Hello World
+
     std::cout << "Hello World" << std::endl;
     //Testing Header File
     int x = 12;
     std::string outs = std::to_string(additionforU(x, x));
     std::cout << outs << std::endl;
-    
+
+    cablog::empt();
+    cablog::info("End Console Tests");
+    cablog::empt();
+
     //Print Sound Cards (also converts hstring to std::string)
-    std::string ns = "sasss";
+    std::string ns = "sa";
     hstring ns2 = MediaDevice::GetAudioCaptureSelector();
     ns = to_string(ns2);
 
@@ -68,6 +90,7 @@ int main()
 
     //exit
     std::cout<< "\n" << "End of program" << "\n" << "\n";
+    */
     system("pause");
 
     //Adding input to the program

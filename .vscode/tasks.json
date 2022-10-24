@@ -12,7 +12,8 @@
 				
 				"/nologo",
 				"/Fe${fileDirname}\\bin\\${fileBasenameNoExtension}.exe",
-				"${file}"
+				"${file}",
+				"${fileDirname}\\cablog.cpp"
 			],
 			"options": {
 				"cwd": "${fileDirname}"

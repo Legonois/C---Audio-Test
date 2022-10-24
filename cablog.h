@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdio.h>
 #include <string>
 #include <iostream>
@@ -5,31 +7,60 @@
 
 #include "pch.h"
 
-
-namespace cablog
+class Cablog
 {
-    void info(std::string input )
-    {
-        
-        
+    private:
+    HANDLE _hConsole;
 
-        HANDLE hconsole;
-            int k = 240;
-        
+    public:
+    Cablog();
+    void info2(std::string input);
+};
 
+// void info(std::string input )
+// {
+//     HANDLE hconsole;
+//         int k = 240;
+//     hconsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-        hconsole = GetStdHandle(STD_OUTPUT_HANDLE);
+//     SetConsoleTextAttribute(hconsole, k);        
 
-        SetConsoleTextAttribute(hconsole, k);        
+//     std::cout << "Info:";
 
-        std::cout << "Info:";
+//     SetConsoleTextAttribute(hconsole, 15);
 
-        SetConsoleTextAttribute(hconsole, 15);
+//     std::cout << " " << input << "\n";
+// }
+// void warn(std::string input )
+// {
+//     HANDLE hconsole;
+//         int k = 224;
+//     hconsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-        std::cout << " " << input << "\n";
+//     SetConsoleTextAttribute(hconsole, k);        
 
-        
-    }
+//     std::cout << "Warn:";
 
+//     SetConsoleTextAttribute(hconsole, 15);
 
-}
+//     std::cout << " " << input << "\n";
+// }
+// void error(std::string input )
+// {
+//     HANDLE hconsole;
+//         int k = 79;
+//     hconsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+//     SetConsoleTextAttribute(hconsole, k);        
+
+//     std::cout << "Error:";
+
+//     SetConsoleTextAttribute(hconsole, 15);
+
+//     std::cout << " " << input << "\n";
+// }
+// void empt()
+// {
+//     std::cout << std::endl;
+// }
+

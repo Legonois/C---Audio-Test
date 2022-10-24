@@ -35,10 +35,12 @@ namespace cab
 {
     int testAudioGraph()
     {
-    AudioGraphSettings settings = AudioGraphSettings(Windows::Media::Render::AudioRenderCategory::Media); 
-
-    class CreateAudioGraphResult final2 = /*co_await*/ AudioGraph::CreateAsync(settings).get();     //.wait_for(30);
+        
     
-    return 1;
+        AudioGraphSettings settings = AudioGraphSettings(Windows::Media::Render::AudioRenderCategory::Media); 
+
+        class CreateAudioGraphResult final2 = /*co_await*/ AudioGraph::CreateAsync(settings).get();     //.wait_for(30);
+    
+        return 1;
     }
 }
