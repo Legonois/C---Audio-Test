@@ -9,61 +9,89 @@ namespace cab
 
     IAsyncOperation<int> testAudioGraph()
     {
-        Cablog* cLog = new Cablog();
-
-        AudioGraphSettings settings = AudioGraphSettings(Windows::Media::Render::AudioRenderCategory::Media);
-        cLog->info("... Created settings");
-
-        CreateAudioGraphResult final2 = co_await AudioGraph::CreateAsync(settings);//.get;     //.wait_for(30);
-        cLog->info("... Created final2");
-
-        AudioGraph audiograph = final2.Graph();
-        cLog->info("... Created audiograph");  
-
-        cLog->info("File Location?: ");
-
-        std::string cinput;
-        std::getline (std::cin, cinput);
-
-        
-        cLog->info("input: '" + backSlash(cinput) + "'");
-
-        cLog->info("FileParse: '" + fileParse(backSlash(cinput)) + "'");
-
-        cLog->info("PathParse: '" + pathParse(backSlash(cinput)) + "'");
-
-        hstring audioPath = to_hstring(pathParse(backSlash(cinput)));
-
-        cLog->info("... Getting folder '" + to_string(audioPath) + "'");
-        //Windows::Storage::StorageFolder storageFolder = Windows::Storage::ApplicationData::Current().LocalFolder();
-        Windows::Storage::StorageFolder storageFolder{ co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(audioPath) };
-
-        //StorageFolder storageFolder;
-
-        // try
-        // {
-        //     Windows::Storage::StorageFolder storageFolder{ co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(L"C:\\Users\\wesle\\Downloads") };
-        // }
-        // catch(winrt::hresult_error const& ex)
-        // {
-        //     cLog->error("... Failed getting folder");
-        //     winrt::hresult hr = ex.code(); // HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND).
-        //     winrt::hstring message = ex.message();
-        // }
-        
-
-        cLog->info("... Imported folder '" + to_string(audioPath) + "'");
-
-        //auto debugfile = ;
-
-        auto relFilepath = to_hstring(fileParse(cinput));
-
-        //debugfile.Cancel();
-        cLog->info("... Getting file '" + fileParse(backSlash(cinput)) + "'");
+        Cablog *cLog = new Cablog();
 
         try
         {
-            auto sampleFile{ co_await storageFolder.GetFileAsync(relFilepath) };
+            
+
+            AudioGraphSettings settings = AudioGraphSettings(Windows::Media::Render::AudioRenderCategory::Media);
+            cLog->info("... Created settings");
+
+            CreateAudioGraphResult final2 = co_await AudioGraph::CreateAsync(settings); //.get;     //.wait_for(30);
+            cLog->info("... Created final2");
+
+            AudioGraph audiograph = final2.Graph();
+            cLog->info("... Created audiograph");
+
+            cLog->info("File Location?: ");
+
+            std::string cinput;
+            std::getline(std::cin, cinput);
+
+            cLog->info("input: '" + backSlash(cinput) + "'");
+
+            cLog->info("FileParse: '" + fileParse(backSlash(cinput)) + "'");
+
+            cLog->info("PathParse: '" + pathParse(backSlash(cinput)) + "'");
+
+            hstring audioPath = to_hstring(pathParse(backSlash(cinput)));
+
+            cLog->info("... Getting folder '" + to_string(audioPath) + "'");
+            // Windows::Storage::StorageFolder storageFolder = Windows::Storage::ApplicationData::Current().LocalFolder();
+            Windows::Storage::StorageFolder storageFolder{co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(audioPath)};
+
+            // StorageFolder storageFolder;
+
+            // try
+            // {
+            //     Windows::Storage::StorageFolder storageFolder{ co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(L"C:\\Users\\wesle\\Downloads") };
+            // }
+            // catch(winrt::hresult_error const& ex)
+            // {
+            //     cLog->error("... Failed getting folder");
+            //     winrt::hresult hr = ex.code(); // HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND).
+            //     winrt::hstring message = ex.message();
+            // }
+
+            cLog->info("... Imported folder '" + to_string(audioPath) + "'");
+
+            // auto debugfile = ;
+
+            auto relFilepath = to_hstring(fileParse(backSlash(cinput)));
+
+            // debugfile.Cancel();
+            cLog->info("... Getting file '" + fileParse(backSlash(cinput)) + "'");
+
+            auto sampleFile{co_await storageFolder.GetFileAsync(relFilepath)};
+
+            cLog->info("... Imported File 'AJR I Wont Full Song Even BETTER Quality Lyrics.wav'");
+
+            CreateAudioFileInputNodeResult fileNodeResult = audiograph.CreateFileInputNodeAsync(sampleFile).get();
+            cLog->info("... Created FileNodeResult");
+
+            AudioFileInputNode filenode = fileNodeResult.FileInputNode();
+            cLog->info("... Created filenode");
+
+            CreateAudioDeviceOutputNodeResult outputResult{co_await audiograph.CreateDeviceOutputNodeAsync()};
+            cLog->info("... Created AudioDeviceOutputNode");
+
+            AudioDeviceOutputNode audioOutput = outputResult.DeviceOutputNode();
+            cLog->info("... Created audioOutput");
+
+            filenode.Start();
+
+            audioOutput.Start();
+
+            filenode.AddOutgoingConnection(audioOutput);
+
+            audiograph.Start();
+
+            system("pause");
+
+            filenode.Close();
+            audioOutput.Close();
+            audiograph.Close();
         }
         catch (winrt::hresult_error const& ex)
         {
@@ -73,35 +101,7 @@ namespace cab
         //sampleFile.
 
         // Process file
-        cLog->info("... Imported File 'AJR I Wont Full Song Even BETTER Quality Lyrics.wav'");
 
-        CreateAudioFileInputNodeResult fileNodeResult = audiograph.CreateFileInputNodeAsync(sampleFile).get();
-        cLog->info("... Created FileNodeResult");
-
-        AudioFileInputNode filenode = fileNodeResult.FileInputNode();
-        cLog->info("... Created filenode");
-
-        CreateAudioDeviceOutputNodeResult outputResult{ co_await audiograph.CreateDeviceOutputNodeAsync() };
-        cLog->info("... Created AudioDeviceOutputNode");
-
-        AudioDeviceOutputNode audioOutput = outputResult.DeviceOutputNode();
-        cLog->info("... Created audioOutput");
-
-        
-    
-        filenode.Start();
-
-        audioOutput.Start();
-
-        filenode.AddOutgoingConnection(audioOutput);
-
-        audiograph.Start();
-
-        system("pause");
-
-        filenode.Close();
-        audioOutput.Close();
-        audiograph.Close();
 
         co_return 1;
     }

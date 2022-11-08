@@ -36,7 +36,7 @@ void Cablog::error(std::string input)
     int k = 79;
     SetConsoleTextAttribute(_hConsole, k);        
 
-    std::cout << "Info:";
+    std::cout << "Error:";
 
     SetConsoleTextAttribute(_hConsole, 15);
 
