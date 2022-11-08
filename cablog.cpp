@@ -1,5 +1,7 @@
 #include "cablog.h"
 
+HANDLE Cablog::_hConsole;
+
 Cablog::Cablog()
 {
 

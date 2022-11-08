@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <coroutine>
+#include <string>
 
 //Inport Custom Libaries
 #include "cab.h"

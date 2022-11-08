@@ -18,51 +18,89 @@ namespace cab
         cLog->info("... Created final2");
 
         AudioGraph audiograph = final2.Graph();
-        cLog->info("... Created audiograph");
+        cLog->info("... Created audiograph");  
 
-        cLog->info("... Getting folder 'C:/Users/wesle/Downloads'");
+        cLog->info("File Location?: ");
+
+        std::string cinput;
+        std::getline (std::cin, cinput);
+
+        
+        cLog->info("input: '" + backSlash(cinput) + "'");
+
+        cLog->info("FileParse: '" + fileParse(backSlash(cinput)) + "'");
+
+        cLog->info("PathParse: '" + pathParse(backSlash(cinput)) + "'");
+
+        hstring audioPath = to_hstring(pathParse(backSlash(cinput)));
+
+        cLog->info("... Getting folder '" + to_string(audioPath) + "'");
         //Windows::Storage::StorageFolder storageFolder = Windows::Storage::ApplicationData::Current().LocalFolder();
-        Windows::Storage::StorageFolder storageFolder{ co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(L"C:/Users/wesle/Downloads") };
+        Windows::Storage::StorageFolder storageFolder{ co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(audioPath) };
 
-        try
-        {
-            Windows::Storage::StorageFolder storageFolder{ co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(L"C:/Users/wesle/Downloads") };
-        }
-        catch(winrt::hresult_error const& ex)
-        {
-            cLog->error("... Failed getting folder");
-            winrt::hresult hr = ex.code(); // HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND).
-            winrt::hstring message = ex.message();
-        }
+        //StorageFolder storageFolder;
+
+        // try
+        // {
+        //     Windows::Storage::StorageFolder storageFolder{ co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(L"C:\\Users\\wesle\\Downloads") };
+        // }
+        // catch(winrt::hresult_error const& ex)
+        // {
+        //     cLog->error("... Failed getting folder");
+        //     winrt::hresult hr = ex.code(); // HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND).
+        //     winrt::hstring message = ex.message();
+        // }
         
 
-        cLog->info("... Imported folder 'C:/Users/wesle/Downloads'");
+        cLog->info("... Imported folder '" + to_string(audioPath) + "'");
 
         //auto debugfile = ;
 
-        auto relFilepath = L"AJR I Wont Full Song Even BETTER Quality Lyrics.wav";
+        auto relFilepath = to_hstring(fileParse(cinput));
 
         //debugfile.Cancel();
-        cLog->info("... Getting file 'AJR I Wont Full Song Even BETTER Quality Lyrics.wav'");
+        cLog->info("... Getting file '" + fileParse(backSlash(cinput)) + "'");
 
-        auto sampleFile{ co_await storageFolder.GetFileAsync(relFilepath) };
-
+        try
+        {
+            auto sampleFile{ co_await storageFolder.GetFileAsync(relFilepath) };
+        }
+        catch (winrt::hresult_error const& ex)
+        {
+            hstring message = ex.message();
+            cLog->error(to_string(message));
+        }
         //sampleFile.
 
         // Process file
         cLog->info("... Imported File 'AJR I Wont Full Song Even BETTER Quality Lyrics.wav'");
 
         CreateAudioFileInputNodeResult fileNodeResult = audiograph.CreateFileInputNodeAsync(sampleFile).get();
-        cLog->info("... Greating FileNodeResult");
+        cLog->info("... Created FileNodeResult");
 
         AudioFileInputNode filenode = fileNodeResult.FileInputNode();
-        cLog->info("... Greating filenode");
+        cLog->info("... Created filenode");
+
+        CreateAudioDeviceOutputNodeResult outputResult{ co_await audiograph.CreateDeviceOutputNodeAsync() };
+        cLog->info("... Created AudioDeviceOutputNode");
+
+        AudioDeviceOutputNode audioOutput = outputResult.DeviceOutputNode();
+        cLog->info("... Created audioOutput");
+
+        
     
         filenode.Start();
+
+        audioOutput.Start();
+
+        filenode.AddOutgoingConnection(audioOutput);
+
+        audiograph.Start();
 
         system("pause");
 
         filenode.Close();
+        audioOutput.Close();
         audiograph.Close();
 
         co_return 1;
@@ -82,4 +120,61 @@ namespace cab
         co_return yo;
     }
 
+    std::string backSlash(std::string input)
+    {
+        std::string manip = input;
+
+        // for (int i = input.length(); i >= 0; i--)
+        // {
+        //     std::string fs = "/";
+        //     std::string bs = "\\";
+
+        //     if (manip[i] == fs[1])
+        //     {
+        //         std::cout << "I hope this runs" << std::endl;
+
+        //         manip[i] = bs[1];
+        //     }
+        // }
+
+        std::replace( manip.begin(), manip.end(), '/', '\\');
+        //std::replace( manip.begin(), manip.end(), '"');
+        manip.erase(std::remove(manip.begin(), manip.end(), '\''), manip.end());
+        manip.erase(std::remove(manip.begin(), manip.end(), '\"'), manip.end());
+
+        return manip;
+    }
+
+    std::string pathParse(std::string input)
+    {
+        size_t pos = 0;
+        std::string token;
+        std::string delimiter = "\\";
+        std::string tempInput = input;
+
+        while((pos = tempInput.find(delimiter)) != std::string::npos)
+        {
+            token = tempInput.substr(0, pos);
+            tempInput.erase(0, pos + delimiter.length());
+        }
+
+        std::string output = input.substr(0, input.find(tempInput));
+        
+        return output;
+    }
+
+    std::string fileParse(std::string input)
+    {
+        size_t pos = 0;
+        std::string token;
+        std::string delimiter = "\\";
+
+        while((pos = input.find(delimiter)) != std::string::npos)
+        {
+            token = input.substr(0, pos);
+            input.erase(0, pos + delimiter.length());
+        }
+        
+        return input;
+    }
 }

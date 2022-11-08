@@ -41,7 +41,6 @@ int main()
     CLog->info("testing");
 
     system("pause");
-    CLog->info("Pleeeeeeeease");
 
     CLog->info("Audio Graph Creation Exit Code: " + std::to_string(cab::testAudioGraph().get()));
 

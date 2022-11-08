@@ -10,7 +10,7 @@
 class Cablog
 {
     private:
-    HANDLE _hConsole;
+    static HANDLE _hConsole;
 
     public:
     Cablog();

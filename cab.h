@@ -6,6 +6,7 @@
 //Inport Standard Libaries
 // #include <stdio.h>
 // #include <iostream>
+//#include <string>
 // #include <coroutine>
 
 //Inport Windows Runtime API settings
@@ -43,6 +44,12 @@ namespace cab
     IAsyncOperation<int> testAudioGraph();
 
     IAsyncOperation<winrt::hstring> getFileAsync();
+
+    std::string backSlash(std::string input);
+
+    std::string pathParse(std::string input);
+
+    std::string fileParse(std::string input);
     
 
 }
