@@ -1,32 +1,12 @@
-//Inport Standard Libaries
-#include <stdio.h>
-#include <iostream>
-#include <coroutine>
 
 //Inport Custom Libaries
-#include "cab.h"
-#include "cablog.h"
+//#include "cab.h"
+//#include "cablog.h"
 
 //Inport Windows Runtime API settings
 #include "pch.h"
 
-//Inport Windows Runtime API to native C++
-#include "winrt/Windows.Foundation.h"
-#include "winrt/Windows.Foundation.Collections.h"
 
-
-#include "winrt/Windows.Media.h"
-#include "winrt/Windows.Media.Devices.h"
-#include "winrt/Windows.Media.Capture.h"
-#include "winrt/Windows.Media.Audio.h"
-#include "winrt/Windows.Media.Render.h"
-#include "winrt/Windows.Media.MediaProperties.h"
-#include "winrt/Windows.Media.Devices.Core.h"
-
-//#include <Windows.h>
-
-//Test inclusion of a Header File
-#include "testheader.h"
 
 //Added Namespaces so code is easier to find
 using namespace winrt;
@@ -41,21 +21,36 @@ using namespace winrt::Windows::Media::Render;
 using namespace winrt::Windows::Media::MediaProperties;
 
 
-
+IAsyncOperation<int> MainAsync()
+{
+    co_return 1;
+}
 
 
 
 int main()
 {
-    winrt::init_apartment();
 
-    Cablog* pCablog = new Cablog();
+    init_apartment();
+
+    Cablog* CLog = new Cablog();
     
-    //cablog::info2("Start console tests");
-    //cablog::cablog::info2("Testing");
+    //cablog::info("Start console tests");
+    //cablog::cablog::info("Testing");
 
-    pCablog->info2("testing");
+    CLog->info("testing");
 
+    system("pause");
+    CLog->info("Pleeeeeeeease");
+
+    CLog->info("Audio Graph Creation Exit Code: " + std::to_string(cab::testAudioGraph().get()));
+
+    system("pause");
+
+    MainAsync().get();
+
+    
+    //      DEPRECATED CODE       REMOVE LATER
     /*
     //Console tests
     cablog::empt();
@@ -92,9 +87,9 @@ int main()
     //exit
     std::cout<< "\n" << "End of program" << "\n" << "\n";
     */
-    system("pause");
+   
 
-    delete pCablog;
+    
 
     //Adding input to the program
     //std::string s;
@@ -118,6 +113,9 @@ int main()
         std::cout << outs << std::endl;
     }
     */
+
+   //End of program process
+   delete CLog;
 
 
 }

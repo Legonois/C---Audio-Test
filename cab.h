@@ -1,7 +1,12 @@
+#pragma once
+
+//Caboose Audio Backend
+// #include "cablog.h"
+
 //Inport Standard Libaries
-#include <stdio.h>
-#include <iostream>
-#include <coroutine>
+// #include <stdio.h>
+// #include <iostream>
+// #include <coroutine>
 
 //Inport Windows Runtime API settings
 #include "pch.h"
@@ -18,6 +23,7 @@
 #include "winrt/Windows.Media.Render.h"
 #include "winrt/Windows.Media.MediaProperties.h"
 #include "winrt/Windows.Media.Devices.Core.h"
+#include "winrt/Windows.Storage.h"
 
 //Added Namespaces so code is easier to find
 using namespace winrt;
@@ -30,17 +36,13 @@ using namespace winrt::Windows::Media::Capture;
 using namespace winrt::Windows::Media::Audio;
 using namespace winrt::Windows::Media::Render;
 using namespace winrt::Windows::Media::MediaProperties;
+using namespace winrt::Windows::Storage;
 
 namespace cab
 {
-    int testAudioGraph()
-    {
-        
-    
-        AudioGraphSettings settings = AudioGraphSettings(Windows::Media::Render::AudioRenderCategory::Media); 
+    IAsyncOperation<int> testAudioGraph();
 
-        class CreateAudioGraphResult final2 = /*co_await*/ AudioGraph::CreateAsync(settings).get();     //.wait_for(30);
+    IAsyncOperation<winrt::hstring> getFileAsync();
     
-        return 1;
-    }
+
 }

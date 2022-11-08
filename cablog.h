@@ -14,7 +14,10 @@ class Cablog
 
     public:
     Cablog();
-    void info2(std::string input);
+    void info(std::string input);
+    void warn(std::string input);
+    void error(std::string input);
+    void empt();
 };
 
 // void info(std::string input )
