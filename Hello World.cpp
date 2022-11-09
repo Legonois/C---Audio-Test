@@ -5,6 +5,11 @@
 
 //Inport Windows Runtime API settings
 #include "pch.h"
+#include "frameinput.h"
+
+#include "cab.h"
+#include "cablog.h"
+//#include "frameinput.h"
 
 
 
@@ -31,6 +36,8 @@ IAsyncOperation<int> MainAsync()
 int main()
 {
 
+
+
     init_apartment();
 
     Cablog* CLog = new Cablog();
@@ -44,9 +51,29 @@ int main()
 
     CLog->info("File Audio Graph Exit Code: " + std::to_string(cab::FileAudioGraph().get()));
 
+
+    FrameInput* pFrames = new FrameInput();
+
+    try
+    {
+        CLog->info("Audio Generation Exit Code: " + std::to_string(pFrames->FrameAudioGraph().get()));
+    }
+    catch (winrt::hresult_error const &ex)
+    {
+        hstring message = ex.message();
+        CLog->error("WinRT/C++: " + to_string(message));
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+
     system("pause");
 
     MainAsync().get();
+
+    delete pFrames;
 
     
     //      DEPRECATED CODE       REMOVE LATER

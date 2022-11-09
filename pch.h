@@ -12,11 +12,12 @@
 #include <string>
 
 //Inport Custom Libaries
-#include "cab.h"
-#include "cablog.h"
+// #include "cab.h"
+// #include "cablog.h"
+// #include "frameinput.h"
 
 //Inport Windows Runtime API settings
-#include "pch.h"
+//#include "pch.h"
 
 //Inport Windows Runtime API to native C++
 #include "winrt/Windows.Foundation.h"

@@ -2,6 +2,9 @@
 
 //Caboose Audio Backend
 // #include "cablog.h"
+#include "cab.h"
+#include "cablog.h"
+//#include "frameinput.h"
 
 //Inport Standard Libaries
 // #include <stdio.h>
@@ -10,7 +13,7 @@
 // #include <coroutine>
 
 //Inport precompiled headers
-#include "pch.h"
+//#include "pch.h"
 
 //Inport Windows Runtime API to native C++
 #include "winrt/Windows.Foundation.h"
@@ -32,17 +35,7 @@
 
 namespace cab
 {
-    class FrameInput 
-    {
-        public:
-        winrt::Windows::Media::Audio::AudioGraph audiograph;
-        double theta;
-
-        private:
-        winrt::Windows::Media::AudioFrame GenerateAudioData(uint64_t samples);
-        winrt::Windows::Foundation::IAsyncOperation<int> FrameAudioGraph();
-        void node_QuantumStarted(AudioFrameInputNode sender, FrameInputNodeQuantumStartedEventArgs args);
-    };
+    
 
     winrt::Windows::Foundation::IAsyncOperation<int> FileAudioGraph();
 

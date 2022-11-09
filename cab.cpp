@@ -1,4 +1,5 @@
 #include "cab.h"
+#include "pch.h"
 
 //using namespace winrt;
 using namespace winrt::Windows::Foundation;
@@ -135,104 +136,7 @@ namespace cab
 //Testing Classes
 
 
-    class FrameInput
-    {
-        public:
-        winrt::Windows::Media::Audio::AudioGraph audiograph;
-
-        double theta = 0;
-
-        private:
-        AudioFrame GenerateAudioData(uint64_t samples)
-        {
-            uint64_t bufferSize = samples * sizeof(float);
-
-            AudioFrame frame = AudioFrame(bufferSize);
-
-            AudioBuffer buffer = frame.LockBuffer(AudioBufferAccessMode::Write);
-            IMemoryBufferReference reference = buffer.CreateReference();
-
-            // be careful with memory
-
-            byte *dataInBytes;
-            uint64_t cappacityInBytes;
-            float *dataInFloat;
-
-            dataInFloat = (float *)dataInBytes;
-
-            float freq = 1000;
-            float amplitude = 0.3f;
-            int sampleRate = (int)audiograph.EncodingProperties().SampleRate();
-
-            double sampleIncrement = (freq * (3.141592f * 2)) / sampleRate;
-
-            for (int i = 0; i < samples; i++)
-            {
-                double sinValue = amplitude * sin(theta);
-                dataInFloat[i] = (float)sinValue;
-                theta += sampleIncrement;
-            }
-
-            delete dataInBytes;
-            delete dataInFloat;
-
-            return frame;
-        }
-
-        IAsyncOperation<int> FrameAudioGraph()
-        {
-            Cablog *cLog = new Cablog;
-
-            try
-            {
-                // Creating AudioGraph
-
-                AudioGraphSettings settings = AudioGraphSettings(winrt::Windows::Media::Render::AudioRenderCategory::Media);
-                cLog->info("... Created settings");
-
-                CreateAudioGraphResult final2 = co_await AudioGraph::CreateAsync(settings); //.get;     //.wait_for(30);
-                cLog->info("... Created final2");
-
-                AudioGraph audiograph = final2.Graph();
-
-                // Creating DeviceOutputNode
-
-                CreateAudioDeviceOutputNodeResult deviceOutResult = co_await audiograph.CreateDeviceOutputNodeAsync();
-                AudioDeviceOutputNode deviceOutNode = deviceOutResult.DeviceOutputNode();
-
-                // Creating FrameInputNode
-
-                AudioEncodingProperties nodeEncodingProperties = audiograph.EncodingProperties();
-                nodeEncodingProperties.ChannelCount(1);
-                AudioFrameInputNode frameInputNode = audiograph.CreateFrameInputNode(nodeEncodingProperties);
-                frameInputNode.AddOutgoingConnection(deviceOutNode);
-
-                frameInputNode.Stop();
-
-                frameInputNode.QuantumStarted(node_QuantumStarted);
-            }
-            catch (winrt::hresult_error const &ex)
-            {
-                hstring message = ex.message();
-                cLog->error("WinRT/C++: " + to_string(message));
-            }
-
-            delete cLog;
-
-            co_return 1;
-        }
-
-        void node_QuantumStarted(AudioFrameInputNode sender, FrameInputNodeQuantumStartedEventArgs args)
-        {
-            uint64_t numSamplesNeeded = (uint64_t)args.RequiredSamples();
-
-            if (numSamplesNeeded != 0)
-            {
-                AudioFrame audiodata = GenerateAudioData(numSamplesNeeded);
-            }
-        }
-
-    };
+ 
 
     // IAsyncOperation<winrt::hstring> getFileAsync()
     // {
