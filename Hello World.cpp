@@ -42,7 +42,7 @@ int main()
 
     system("pause");
 
-    CLog->info("Audio Graph Creation Exit Code: " + std::to_string(cab::testAudioGraph().get()));
+    CLog->info("File Audio Graph Exit Code: " + std::to_string(cab::FileAudioGraph().get()));
 
     system("pause");
 

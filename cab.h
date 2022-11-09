@@ -9,7 +9,7 @@
 //#include <string>
 // #include <coroutine>
 
-//Inport Windows Runtime API settings
+//Inport precompiled headers
 #include "pch.h"
 
 //Inport Windows Runtime API to native C++
@@ -25,25 +25,30 @@
 #include "winrt/Windows.Media.MediaProperties.h"
 #include "winrt/Windows.Media.Devices.Core.h"
 #include "winrt/Windows.Storage.h"
+#include "MemoryBuffer.h"
 
 //Added Namespaces so code is easier to find
-using namespace winrt;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::Foundation::Collections;
 
-using namespace winrt::Windows::Media;
-using namespace winrt::Windows::Media::Devices;
-using namespace winrt::Windows::Media::Capture;
-using namespace winrt::Windows::Media::Audio;
-using namespace winrt::Windows::Media::Render;
-using namespace winrt::Windows::Media::MediaProperties;
-using namespace winrt::Windows::Storage;
 
 namespace cab
 {
-    IAsyncOperation<int> testAudioGraph();
+    class FrameInput 
+    {
+        public:
+        winrt::Windows::Media::Audio::AudioGraph audiograph;
+        double theta;
 
-    IAsyncOperation<winrt::hstring> getFileAsync();
+        private:
+        winrt::Windows::Media::AudioFrame GenerateAudioData(uint64_t samples);
+        winrt::Windows::Foundation::IAsyncOperation<int> FrameAudioGraph();
+        void node_QuantumStarted(AudioFrameInputNode sender, FrameInputNodeQuantumStartedEventArgs args);
+    };
+
+    winrt::Windows::Foundation::IAsyncOperation<int> FileAudioGraph();
+
+    
+
+    //IAsyncOperation<winrt::hstring> getFileAsync();
 
     std::string backSlash(std::string input);
 
@@ -51,5 +56,6 @@ namespace cab
 
     std::string fileParse(std::string input);
     
-
+    std::string removeInvalidChars(std::string input);
+    std::string removeInvalidChars(std::string input, std::string invalidChars);
 }
